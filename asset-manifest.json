@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Cupcake-test-task/static/css/main.7d89997e.css",
+    "main.js": "/Cupcake-test-task/static/js/main.7545fdbb.js",
+    "static/js/787.02e73687.chunk.js": "/Cupcake-test-task/static/js/787.02e73687.chunk.js",
+    "index.html": "/Cupcake-test-task/index.html",
+    "main.7d89997e.css.map": "/Cupcake-test-task/static/css/main.7d89997e.css.map",
+    "main.7545fdbb.js.map": "/Cupcake-test-task/static/js/main.7545fdbb.js.map",
+    "787.02e73687.chunk.js.map": "/Cupcake-test-task/static/js/787.02e73687.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7d89997e.css",
+    "static/js/main.7545fdbb.js"
+  ]
+}
