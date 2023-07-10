@@ -1,8 +1,9 @@
 import React from "react";
+import s from "./Table.module.css";
 
 export const Table = () => {
   return (
-    <table className="styled-table">
+    <table className={s.table}>
       <thead>
         <tr>
           <th>Pair name/market</th>
