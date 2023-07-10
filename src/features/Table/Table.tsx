@@ -12,6 +12,13 @@ export const Table = () => {
 
   const currencyData = useLongpolling(endpoints);
 
+  const formatValue = (value: number | undefined): string => {
+    if (typeof value === "number") {
+      return value.toFixed(2);
+    }
+    return "-";
+  };
+
   return (
     <table className={s.table}>
       <thead>
@@ -26,9 +33,9 @@ export const Table = () => {
         {Object.entries(currencyData).map(([pair, sources]) => (
           <tr key={pair}>
             <td>{pair}</td>
-            <td>{sources.First}</td>
-            <td>{sources.Second}</td>
-            <td>{sources.Third}</td>
+            <td>{formatValue(sources.First)}</td>
+            <td>{formatValue(sources.Second)}</td>
+            <td>{formatValue(sources.Third)}</td>
           </tr>
         ))}
       </tbody>
