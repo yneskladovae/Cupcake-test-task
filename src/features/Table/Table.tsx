@@ -3,19 +3,19 @@ import s from "./Table.module.css";
 import { BASE_URL, FIRST_ENDPOINTS, SECOND_ENDPOINTS, THIRD_ENDPOINTS } from "../../common/constants/constants";
 import axios from "axios";
 
-type Endpoint = {
+export type Endpoint = {
   source: string;
   path?: string;
   longpoll?: string;
 };
 
-type CurrencyData = {
+export type CurrencyData = {
   [pair: string]: {
     [source: string]: number;
   };
 };
 
-type ResponseDataType = {
+export type ResponseDataType = {
   rates: {
     [currency: string]: number;
   };
@@ -52,6 +52,39 @@ export const Table = () => {
       }
     };
 
+    const longPolling = async (endpoints: Endpoint[]) => {
+      while (true) {
+        try {
+          const responses = await Promise.all(
+            endpoints.map((endpoint) => axios.get<ResponseDataType>(BASE_URL + endpoint.longpoll)),
+          );
+          const updatedCurrencyData: CurrencyData = {};
+
+          responses.forEach((response, index) => {
+            const { rates, base } = response.data;
+            const source = endpoints[index].source;
+
+            Object.keys(rates).forEach((currency) => {
+              if (currency !== base) {
+                const pair = `${currency}/${base}`;
+                updatedCurrencyData[pair] = updatedCurrencyData[pair] || {};
+                updatedCurrencyData[pair][source] = rates[currency];
+              }
+            });
+          });
+
+          setCurrencyData((prevData) => ({ ...prevData, ...updatedCurrencyData }));
+        } catch (error) {
+          console.error("Error polling data:", error);
+        }
+      }
+    };
+
+    longPolling([
+      { source: "First", longpoll: FIRST_ENDPOINTS.longpoll },
+      { source: "Second", longpoll: SECOND_ENDPOINTS.longpoll },
+      { source: "Third", longpoll: THIRD_ENDPOINTS.longpoll },
+    ]);
     fetchData([
       { source: "First", path: FIRST_ENDPOINTS.path },
       { source: "Second", path: SECOND_ENDPOINTS.path },
